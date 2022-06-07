@@ -1,13 +1,19 @@
 from flask import Flask
+from flask_cors import CORS
 import const, utils
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+CORS(app, resources={r'*': {'origins': 'https://c2lv.github.io'}})
 
 @app.route("/ambition", methods=["GET"])
 def today_ambition_score():
     today_ambition_sub_score = utils.today_lol_score(const.AMBITION_SUB_ACCOUNT_ID, const.AMBITION_SUB_SUMMONER_ID)
+    if type(today_ambition_sub_score) == dict:
+        return today_ambition_sub_score
     today_ambition_main_score = utils.today_lol_score(const.AMBITION_MAIN_ACCOUNT_ID, const.AMBITION_MAIN_SUMMONER_ID)
+    if type(today_ambition_main_score) == dict:
+        return today_ambition_main_score
     youtubeComment = '오늘의 앰비션 점수\n' + today_ambition_sub_score + today_ambition_main_score
     return {"youtubeComment": youtubeComment}
 

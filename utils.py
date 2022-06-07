@@ -1,5 +1,6 @@
-import requests, time, const
+import requests, const
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 def get_account_and_summoner_id(summoner_name):
     get_a_summoner_url = const.GET_A_SUMMONER_HEAD_URL + summoner_name \
@@ -19,7 +20,7 @@ def get_today_wins_losses_and_ranking(summoner_name):
         ranking = soup.find("span", attrs={"class":"tipsy_live"}).attrs['tipsy'].split()[2]
         wins_losses = {"승": 0, "패": 0}
         for i in range(1, 21):
-            today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+            today = datetime.now().astimezone(const.KST).strftime('%Y-%m-%d')
             record_start_time = soup.select_one(f'body > div:nth-child(7) > div:nth-child(1) > div:nth-child(2) > div.div_recent > table.tablesorter.table_recent > tbody:nth-child(2) > tr:nth-child({i}) > td:nth-child(10) > span.tipsy_live').attrs['tipsy'].split()[1]
             game_type = soup.select_one(f'body > div:nth-child(7) > div:nth-child(1) > div:nth-child(2) > div.div_recent > table.tablesorter.table_recent > tbody:nth-child(2) > tr:nth-child({i}) > td:nth-child(3)').text
             if today == record_start_time and game_type == '랭크':
