@@ -50,9 +50,9 @@ export RIOTGAMES_API_KEY="Enter Your DEVELOPMENT_API_KEY"
 ```terminal
 pip install -r requirements.txt
 ```
-5. Run `main.py` file.
+5. Run Flask.
 ```terminal
-python main.py
+flask run
 ```
 
 ## Reference
