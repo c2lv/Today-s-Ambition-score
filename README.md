@@ -9,6 +9,8 @@
 최용민수의 시간을 아끼기 위해 만들었습니다.  
 Special Thanks to 최용민수
 
+전적은 솔로랭크 기준입니다.
+
 ## Environment
 ### OS  
 Window 10
