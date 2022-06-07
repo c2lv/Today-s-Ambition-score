@@ -35,7 +35,7 @@ git clone https://github.com/c2lv/Today-s-Ambition-score.git
 ```
 2. Change directory and activate virtualenv.
 ```terminal
-cd Today-s-Ambition-score.git
+cd Today-s-Ambition-score
 pip install virtualenv
 virtualenv "Enter Your Virtual Environment Name"
 source "Enter Your Virtual Environment Name"/Scripts/activate
