@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>오늘의 앰비션 점수</title>
+    </head>
+    <style>
+        textarea {
+            width: 100%;
+            height: 6.25em;
+            resize: none;
+        }
+    </style>
+    <body>
+        <textarea id="print_today_ambition_score" cols="50" rows="10" readonly></textarea>
+        <p><button id="get_today_ambition_score">오늘의 앰비션 점수는?</button></p>
+        <p><button id="copy_today_ambition_score">복사하기</button></p>
+
+        <textarea id="print_today_summoner_score" cols="50" rows="10" readonly></textarea>
+        <input id="summonerName" type="text" placeholder="소환사명 입력">
+        <p><button id="get_today_summoner_score">오늘의 내 점수는?</button></p>
+        <p><button id="copy_today_summoner_score">복사하기</button></p>
+
+
+        <!-- Optional JavaScript; choose one of the two! -->
+
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+            document.getElementById('get_today_summoner_score').onclick = function() {
+                document.getElementById('get_today_summoner_score').disabled = true
+                document.getElementById('print_today_summoner_score').value = '데이터를 불러오는 중입니다.'
+                summonerName = document.getElementById('summonerName').value
+                if (summonerName != '')
+                    fetch("https://today-s-ambition-score.herokuapp.com/by-name/" + summonerName)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        today_summoner_score = data.youtubeComment
+                        document.getElementById('print_today_summoner_score').value = today_summoner_score
+                        document.getElementById('get_today_summoner_score').disabled = false
+                })
+                else
+                {
+                    document.getElementById('print_today_summoner_score').value = '소환사명을 입력해주세요.'
+                    document.getElementById('get_today_summoner_score').disabled = false
+                }
+            }
+            var btnCopy = document.getElementById("copy_today_summoner_score")
+            btnCopy.addEventListener("click", function (e) { 
+                var text = document.getElementById("print_today_summoner_score").value
+                copyToClipboard(text)
+            })
+
+            document.getElementById('get_today_ambition_score').onclick = function() {
+                document.getElementById('get_today_ambition_score').disabled = true
+                document.getElementById('print_today_ambition_score').value = '데이터를 불러오는 중입니다.'
+                fetch("https://today-s-ambition-score.herokuapp.com/ambition")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        today_ambition_score = data.youtubeComment
+                        // today_ambition_score = data.youtubeComment.replace(/\n/gi, '<br>')
+                        document.getElementById('print_today_ambition_score').value = today_ambition_score
+                        document.getElementById('get_today_ambition_score').disabled = false
+                })
+            }
+            var btnCopy2 = document.getElementById("copy_today_ambition_score")
+            btnCopy2.addEventListener("click", function (e) { 
+                var text = document.getElementById("print_today_ambition_score").value
+                copyToClipboard(text)
+            })
+            function copyToClipboard(text) {
+                var t = document.createElement("textarea");
+                document.body.appendChild(t);
+                t.value = text
+                t.select()
+                document.execCommand("copy")
+                document.body.removeChild(t)
+                alert("클립보드에 복사되었습니다.")
+            }
+        </script>
+    </body>
+</html>
